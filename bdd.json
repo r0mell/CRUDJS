@@ -1,0 +1,28 @@
+{
+    "usuarios": [
+        {
+            "userName": "romel",
+            "idUser": "1",
+            "phone": "0960624698",
+            "personaje": "zoro"
+        },
+        {
+            "userName": "prueba Modificacion",
+            "idUser": "2",
+            "phone": "2156161212",
+            "personaje": "nami"
+        },
+        {
+            "userName": "kel",
+            "idUser": "3",
+            "phone": "5165451363",
+            "personaje": "zoro"
+        },
+        {
+            "userName": "mama",
+            "idUser": "4",
+            "phone": "5165451363",
+            "personaje": "zoro"
+        }
+    ]
+}
