@@ -168,8 +168,7 @@ function main() {
                                 (valor, index) => {
                                     if (respuesta.bdd.usuarios[index].idUser == respuesta.buscarId.buscarId) {
                                         respuesta.bdd.usuarios.splice(index, 1)
-                                        //console.log('ok111');
-
+                                       
                                     }
                                 }
                             )
@@ -332,13 +331,5 @@ interface newUser {
 }
 
 
-/*
-function eliminarPorName(name){
-    jsonVar.hobbies.forEach(function(currentValue, index, arr){
-    if(jsonVar.hobbies[index].name==name){
-        jsonVar.hobbies.splice(index, index);
-     }
-    })
-  }
-*/
+
 
