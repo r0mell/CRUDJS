@@ -3,6 +3,7 @@ const fs = require('fs');
 const rxjs = require('rxjs');
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
+const concat = require('rxjs/operators').concat;
 main();
 //Mensaje para llenar la base de datos// opciones, dados a actualizar
 const preguntasBdd = [{
@@ -38,7 +39,7 @@ const preguntasBdd = [{
 const buscarX = [{
         type: 'input',
         name: 'buscarId',
-        mensaje: 'ingresa el id que deseas buscar: ',
+        message: 'ingresa el id que deseas buscar: ',
     }];
 const opcionesMenu = [{
         type: 'rawlist',
@@ -46,6 +47,12 @@ const opcionesMenu = [{
         message: 'Que deseas realizar ?',
         default: 'Salir',
         choices: ['Crear', 'Actualizar', 'Borrar', new inquirer.Separator(), 'Salir'],
+    }];
+const updateName = [{
+        type: 'input',
+        name: 'updateName',
+        message: 'Ingrese su nombre de usuario: ',
+        default: 'user'
     }];
 //Al usar inquirer de esta manera lo que estamos obteniendo es una promesa 
 /*const respuestas = inquirer.prompt(preguntasBdd);
@@ -75,10 +82,20 @@ function main() {
                 }));
                 break;
             case 'Actualizar':
+                //const update$ = rxjs.from(inquirer.prompt(updateName))
                 return rxjs.from(inquirer.prompt(buscarX))
                     .pipe(map((buscarId) => {
                     respuesta.buscarId = buscarId;
+                    //return rxjs.from(inquirer.prompt(actualizarName))
                     return respuesta;
+                }))
+                    .pipe(mergeMap((respuesta) => {
+                    return rxjs.from(inquirer.prompt(updateName)).
+                        pipe(map((updateName) => {
+                        respuesta.updateName = updateName;
+                        //return rxjs.from(inquirer.prompt(actualizarName))
+                        return respuesta;
+                    }));
                 }));
                 break;
             case 'Borrar':
@@ -102,7 +119,7 @@ function main() {
             case 'Actualizar':
                 respuesta.bdd.usuarios.forEach((valor, index) => {
                     if (respuesta.bdd.usuarios[index].idUser == respuesta.buscarId.buscarId) {
-                        respuesta.bdd.usuarios[index].userName = 'prueba Modificacion';
+                        respuesta.bdd.usuarios[index].userName = respuesta.updateName.updateName;
                         //console.log('ok111');
                     }
                 });
@@ -112,7 +129,6 @@ function main() {
                 respuesta.bdd.usuarios.forEach((valor, index) => {
                     if (respuesta.bdd.usuarios[index].idUser == respuesta.buscarId.buscarId) {
                         respuesta.bdd.usuarios.splice(index, 1);
-                        //console.log('ok111');
                     }
                 });
                 //console.log('id pregunta' + respuesta.buscarId.buscarId)
@@ -201,12 +217,3 @@ function crearBdd() {
         });
     });
 }
-/*
-function eliminarPorName(name){
-    jsonVar.hobbies.forEach(function(currentValue, index, arr){
-    if(jsonVar.hobbies[index].name==name){
-        jsonVar.hobbies.splice(index, index);
-     }
-    })
-  }
-*/
